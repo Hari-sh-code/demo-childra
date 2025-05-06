@@ -1,40 +1,41 @@
 pipeline {
     agent any
-
+    
     tools {
-        maven 'Maven3'  // Ensure you configure Maven with this name in Jenkins Global Tools config
-        jdk 'JDK17'     // Also configure this JDK in Jenkins with this exact name
+        maven 'Maven'
+        jdk 'JDK'
     }
-
+    
     stages {
         stage('Clone Repository') {
             steps {
-                git 'git@github.com:your-username/your-repo-name.git'
+                // Use the HTTPS URL instead of SSH to avoid authentication issues
+                git url: 'https://github.com/Hari-sh-code/demo-childra', branch: 'main'
             }
         }
-
+        
         stage('Build') {
             steps {
                 sh 'mvn clean compile'
             }
         }
-
+        
         stage('Test') {
             steps {
                 sh 'mvn test'
             }
         }
-
+        
         stage('Package') {
             steps {
                 sh 'mvn package'
             }
         }
     }
-
+    
     post {
         success {
-            echo 'Build and tests passed!'
+            echo 'Build and tests succeeded!'
         }
         failure {
             echo 'Build or tests failed.'
